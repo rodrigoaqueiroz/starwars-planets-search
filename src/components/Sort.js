@@ -32,6 +32,7 @@ function Sort() {
           data-testid="column-sort-input-asc"
           name="sortGroup"
           value="ASC"
+          checked
           onChange={ handleSortDirection }
         />
         Crescente

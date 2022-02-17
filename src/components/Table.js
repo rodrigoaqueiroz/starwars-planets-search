@@ -28,7 +28,7 @@ function Table() {
       <tbody>
         {
           (planets === undefined)
-            ? ''
+            ? false
             : planets.map((item) => <DataTable key={ item.name } item={ item } />)
         }
       </tbody>

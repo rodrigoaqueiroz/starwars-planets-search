@@ -47,26 +47,51 @@ function StarWarsContextProvider({ children }) {
     const planetsSorted = planetList.sort((a, b) => {
       let result = {};
       const test = a[columnSort] === 'unknown'
-        ? false
+        ? null
         : Number.isNaN(Number(a[columnSort]));
       if (test) {
         result = directionSort === 'ASC'
           ? a[columnSort].localeCompare(b[columnSort])
           : b[columnSort].localeCompare(a[columnSort]);
-      } else {
+      }
+      else {
         result = directionSort === 'ASC'
-          ? Number(a[columnSort]) - Number(b[columnSort])
-          : Number(b[columnSort]) - Number(a[columnSort]);
+          ? a[columnSort] - b[columnSort]
+          : b[columnSort] - a[columnSort];
       }
       return result;
     });
     return planetsSorted;
   }
 
-  // A função sortPlanetList foi referência do PR do Rogério Lambert: https://github.com/tryber/sd-010-a-project-starwars-planets-search/pull/38
+  // A função sortPlanetList foi referência (consultada) do PR do Rogério Lambert: https://github.com/tryber/sd-010-a-project-starwars-planets-search/pull/38
+  // Referência 2: https://ricardo-reis.medium.com/o-m%C3%A9todo-sort-do-array-javascript-482576734e0a#:~:text=O%20m%C3%A9todo%20sort()%20permite,e%20o%20maior%20por%20%C3%BAltimo.
+
+  function sortPlanetList(planetList) {
+    const planetsSorted = planetList.sort((a, b) => {
+      let result = {};
+      const test = a[columnSort] === 'unknown'
+        ? null
+        : Number.isNaN(Number(a[columnSort]));
+      if (test) {
+        result = directionSort === 'ASC'
+         ? a[columnSort] === b[columnSort] ? 0 
+         : a[columnSort] > b[columnSort] ? 1 : -1 
+         : a[columnSort] < b[columnSort] ? 1 : -1;
+      }
+      else {
+        result = directionSort === 'ASC'
+          ? a[columnSort] - b[columnSort]
+          : b[columnSort] - a[columnSort];
+      }
+      return result;
+    });
+    return planetsSorted;
+  }
+
   function handleSortBtn() {
-    // console.log(sortPlanetList(planets));
     setOrdered(sortPlanetList(planets));
+    console.log(ordered);
   }
 
   useEffect(() => {
@@ -98,10 +123,10 @@ function StarWarsContextProvider({ children }) {
         if (filterName.comparison === 'igual a') {
           return parseInt(item[filterName.column], 10) === parseInt(filterName.value, 10);
         }
-        return false;
+        return null;
       });
       setPlanetsWithFilter(newPlanets);
-      sortPlanetList(newPlanets);
+      console.log(ordered);
     });
     if (filterByNumericValues.length === 0) setPlanetsWithFilter([]);
   }, [filterByNumericValues]);

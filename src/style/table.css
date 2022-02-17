@@ -15,6 +15,7 @@ thead {
 
 body {
   background-image: url('../images/star-wars-backgrounds.jpg');
+  background-size: cover;
   color: white;
   font-weight: 800;
   text-align: center;
